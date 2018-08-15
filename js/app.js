@@ -120,7 +120,8 @@ function displayWinner(boxClass, team, winnerClass) {
           winScreen.remove();
           addClickSvg();
           $('body').append(board);
-          $('#player1').addClass('active');
+          //$('#player1').addClass('active');
+
           svgBackgoundTurns();
           clearBoard();
           board.show();
@@ -130,10 +131,11 @@ function displayWinner(boxClass, team, winnerClass) {
 }
 
 function clearBoard() {
-  $('#player1').addClass('active');
+  //$('#player1').addClass('active');
+  // $('#player2').removeClass('active');
   for (let i = 0; i < box.length; i++) {
-    $('#player1').addClass('active');
-    $('#player2').removeClass('active');
+    //$('#player1').addClass('active');
+    //$('#player2').removeClass('active');
     box[i].classList.remove('box-filled-1');
     box[i].classList.remove('box-filled-2');
     box[i].style.backgroundImage = '';
