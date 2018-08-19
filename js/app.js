@@ -6,14 +6,12 @@ const box = $('.box');
 const boxHover = $('.box:hover');
 let oBoxes = [];
 let xBoxes = [];
-let player;
 
 function addStartButtonEvent() {
   startButton.on('click', function () {
     startScreen.hide();
     box.css('display', 'block');
     $('#player1').addClass('active');
-    player = 1;
   });
 }
 addStartButtonEvent();
@@ -55,31 +53,23 @@ addMouseOut();
 
 
 function addClickSvg () {
-  player = 1;
   for (let i = 0; i < box.length; i++) {
     box[i].addEventListener('click', function(e) {
       if ($('#player1').hasClass('active')) {
-    //  if (player == 1) {
+        oBoxes.push(box[i]);
         box[i].classList.add('box-filled-1');
         $('#player1').removeClass('active');
         $('#player2').addClass('active');
-        player += 1;
-      //  if (player == 2) {
-          addMouseoverSvg("url('img/x.svg')");
-      //  }
+        addMouseoverSvg("url('img/x.svg')");
         box[i].style.pointerEvents = 'none';
-        oBoxes.push(box[i]);
         displayWinner('box-filled-1', 'O', 'screen-win-one');
      } else if ($('#player2').hasClass('active')) {
+       xBoxes.push(box[i]);
         box[i].classList.add('box-filled-2');
         $('#player2').removeClass('active');
         $('#player1').addClass('active');
-        player -= 1;
-  //      if (player == 1) {
-          addMouseoverSvg("url('img/o.svg')");
-    //    }
+        addMouseoverSvg("url('img/o.svg')");
         box[i].style.pointerEvents = 'none';
-        xBoxes.push(box[i]);
         displayWinner('box-filled-2', 'X', 'screen-win-two');
       }
     });
@@ -95,13 +85,14 @@ const winningCombos = [
   [box[1], box[4], box[7]],
   [box[2], box[5], box[8]],
   [box[0], box[4], box[8]],
-  [box[6], box[4], box[2]],
+  [box[2], box[4], box[6]]
 ]
 
-const winner = '';
+
 function displayWinner(boxClass, team, winnerClass) {
   for (let i = 0; i < winningCombos.length; i++) {
-    if (winningCombos[i][0].classList.contains(boxClass) && winningCombos[i][1].classList.contains(boxClass) && winningCombos[i][2].classList.contains(boxClass)) {
+    const threeInARow = ((winningCombos[i][0].classList.contains(boxClass)) && (winningCombos[i][1].classList.contains(boxClass)) && (winningCombos[i][2].classList.contains(boxClass)));
+    if (threeInARow === true) {
       console.log(`The ${team}s Won!`);
       board.hide();
       $('body').html(`<div class="screen screen-win" id="finish">
@@ -113,33 +104,47 @@ function displayWinner(boxClass, team, winnerClass) {
       </div>`);
       $('#finish').addClass(winnerClass);
         $('.message').text('WINNER');
-        const newGameButton = document.getElementById('new-game-button');
-        const winScreen = $('#finish');
-        newGameButton.addEventListener('click', function() {
-          console.log('new game please');
-          winScreen.remove();
-          addClickSvg();
-          $('body').append(board);
-          //$('#player1').addClass('active');
-
-          svgBackgoundTurns();
-          clearBoard();
-          board.show();
-        });
+        addNewGameButton();
+        return
+    } else if ((oBoxes.length + xBoxes.length === 9) && (threeInARow === false)) {
+      console.log(`It's a tie, bro!`);
+        board.hide();
+        $('body').html(`<div class="screen screen-win-tie">
+          <header>
+            <h1>Tic Tac Toe</h1>
+            <p class="message"></p>
+            <a href="#" class="button" id="new-game-button">New game</a>
+          </haeder>
+        </div>`);
+          $('.message').text('YOU TIED');
+        addNewGameButton();
       }
    }
 }
 
+
+function addNewGameButton() {
+  const newGameButton = document.getElementById('new-game-button');
+  const winScreen = $('#finish');
+  const tieScreen = $('.screen-win-tie');
+  newGameButton.addEventListener('click', function() {
+    console.log('new game please');
+    winScreen.remove();
+    tieScreen.remove();
+    $('body').append(board);
+    svgBackgoundTurns();
+    clearBoard();
+    board.show();
+  });
+}
+
 function clearBoard() {
-  //$('#player1').addClass('active');
-  // $('#player2').removeClass('active');
   for (let i = 0; i < box.length; i++) {
-    //$('#player1').addClass('active');
-    //$('#player2').removeClass('active');
     box[i].classList.remove('box-filled-1');
     box[i].classList.remove('box-filled-2');
     box[i].style.backgroundImage = '';
     box[i].style.pointerEvents = 'auto';
+    xBoxes = [];
+    oBoxes = [];
   }
-  addClickSvg();
 }
