@@ -7,7 +7,6 @@ const boxHover = $('.box:hover');
 let oBoxes = [];
 let xBoxes = [];
 let playingEasyComputer = false;
-let playingMediumComputer = false;
 let playingHardComputer = false;
 const $player1 = $('#player1');
 const $player2 = $('#player2');
@@ -51,15 +50,6 @@ function addPlayEasyComputerButton() {
 }
 addPlayEasyComputerButton();
 
-// function addPlayMediumComputerButton() {
-//   const playMediumComputerButton = document.createElement('button');
-//   playMediumComputerButton.innerHTML = 'Play Computer: Medium';
-//   playMediumComputerButton.classList.add('button');
-//   playMediumComputerButton.classList.add('difficulty-button');
-//   playMediumComputerButton.setAttribute('id', 'play-computer-medium');
-//   board.append(playMediumComputerButton);
-// }
-// addPlayMediumComputerButton();
 
 function addPlayHardComputerButton() {
   const playHardComputerButton = document.createElement('button');
@@ -72,43 +62,25 @@ function addPlayHardComputerButton() {
 addPlayHardComputerButton();
 
 const $playEasyComputerButton = $('#play-computer-easy');
-//const $playMediumComputerButton = $('#play-computer-medium');
 const $playHardComputerButton = $('#play-computer-hard');
 function turnComputerPlayOn() {
   $playEasyComputerButton.on('click', () => {
     if (playingEasyComputer == false) {
       playingEasyComputer = true;
-    //  playingMediumComputer = false;
       playingHardComputer = false;
       $playEasyComputerButton.css('backgroundColor', 'red');
-    //  $playMediumComputerButton.css('backgroundColor', 'white');
       $playHardComputerButton.css('backgroundColor', 'white');
     } else {
       playingEasyComputer = false;
       $playEasyComputerButton.css('backgroundColor', 'white');
     }
   });
-  //   $playMediumComputerButton.on('click', () => {
-  //     if (playingMediumComputer == false) {
-  //       playingMediumComputer = true;
-  //       playingEasyComputer = false;
-  //       playingHardComputer = false;
-  //       $playMediumComputerButton.css('backgroundColor', 'red');
-  //       $playEasyComputerButton.css('backgroundColor', 'white');
-  //       $playHardComputerButton.css('backgroundColor', 'white');
-  //     } else {
-  //       playingMediumComputer = false;
-  //       $playMediumComputerButton.css('backgroundColor', 'white');
-  //     }
-  // });
     $playHardComputerButton.on('click', () => {
       if (playingHardComputer == false) {
         playingHardComputer = true;
         playingEasyComputer = false;
-    //    playingMediumComputer = false;
         $playHardComputerButton.css('backgroundColor', 'red');
         $playEasyComputerButton.css('backgroundColor', 'white');
-    //    $playMediumComputerButton.css('backgroundColor', 'white');
       } else {
         playingHardComputer = false;
         $playHardComputerButton.css('backgroundColor', 'white');
@@ -168,6 +140,7 @@ function activatePlayerOne() {
   addMouseoverSvg("url('img/o.svg')");
 }
 
+
 function addClickSvg () {
   for (let i = 0; i < box.length; i++) {
     box[i].addEventListener('click', function(e) {
@@ -191,7 +164,7 @@ function addClickSvg () {
         box[i].style.pointerEvents = 'none';
         displayWinner('box-filled-1', 'O', 'screen-win-one');
         findAvailableSquares();
-        setTimeout(randomTurn, 1000);
+        setTimeout(randomTurn, 500);
         activatePlayerOne();
         showWinnerWithName();
       }  else if ($('#player1').hasClass('active') && playingEasyComputer == false && playingHardComputer == true) {
@@ -201,9 +174,12 @@ function addClickSvg () {
         box[i].style.pointerEvents = 'none';
         showWinnerWithName();
         computerPlayingHard();
-        displayWinner('box-filled-2', 'X', 'screen-win-two');
+        deactivateBox();
         activatePlayerOne();
       }
+      checkForXBoxes();
+      showWinnerWithName();
+      displayWinner('box-filled-2', 'X', 'screen-win-two');
     });
   }
 }
@@ -227,41 +203,55 @@ function computerPlayingHard () {
     if (winningCombos[i][1].classList.contains('box-filled-1') && !winningCombos[i][2].classList.contains('box-filled-1') && !winningCombos[i][0].classList.contains('box-filled-1') && !winningCombos[i][2].classList.contains('box-filled-2') && !winningCombos[i][0].classList.contains('box-filled-2')) {
       console.log('4');
       hardXSquares.push(winningCombos[i][2]);
-      xBoxes.push(winningCombos[i][2]);
   } else if (winningCombos[i][2].classList.contains('box-filled-1') && !winningCombos[i][1].classList.contains('box-filled-1') && !winningCombos[i][0].classList.contains('box-filled-1') && !winningCombos[i][1].classList.contains('box-filled-2') && !winningCombos[i][0].classList.contains('box-filled-2')) {
       console.log('5');
       hardXSquares.push(winningCombos[i][1]);
-      xBoxes.push(winningCombos[i][1]);
     }  else if (winningCombos[i][0].classList.contains('box-filled-1') && !winningCombos[i][1].classList.contains('box-filled-1') && !winningCombos[i][2].classList.contains('box-filled-1') && !winningCombos[i][1].classList.contains('box-filled-2') && !winningCombos[i][2].classList.contains('box-filled-2')) {
       console.log('6');
       hardXSquares.push(winningCombos[i][1]);
-      xBoxes.push(winningCombos[i][1]);
   }
     else if (winningCombos[i][0].classList.contains('box-filled-1') && winningCombos[i][1].classList.contains('box-filled-1') && (!winningCombos[i][2].classList.contains('box-filled-1') && !winningCombos[i][2].classList.contains('box-filled-2'))) {
       console.log('1st');
       hardXSquares.push(winningCombos[i][2]);
       winningCombos[i][2].classList.add('box-filled-2');
-      xBoxes.push(winningCombos[i][2]);
       return
   } else if (winningCombos[i][1].classList.contains('box-filled-1') && winningCombos[i][2].classList.contains('box-filled-1') && (!winningCombos[i][0].classList.contains('box-filled-1') && !winningCombos[i][0].classList.contains('box-filled-2'))) {
       console.log('2');
       hardXSquares.push(winningCombos[i][0]);
       winningCombos[i][0].classList.add('box-filled-2');
-      xBoxes.push(winningCombos[i][0]);
       return
     } else if (winningCombos[i][0].classList.contains('box-filled-1') && winningCombos[i][2].classList.contains('box-filled-1') && (!winningCombos[i][1].classList.contains('box-filled-1') && !winningCombos[i][1].classList.contains('box-filled-2'))) {
       console.log('3');
       hardXSquares.push(winningCombos[i][1]);
       winningCombos[i][1].classList.add('box-filled-2');
-      xBoxes.push(winningCombos[i][1]);
       return
     }
   }
 let randomHardXSquare = hardXSquares[Math.floor(Math.random() * hardXSquares.length)].classList.add('box-filled-2');
 xBoxes.push(randomHardXSquare);
-displayWinner('box-filled-2', 'X', 'screen-win-two');
+deactivateBox();
 return
 }
+
+
+function checkForXBoxes() {
+  xBoxes = [];
+  for (let i = 0; i < box.length; i++) {
+    if (box[i].classList.contains('box-filled-2')) {
+      xBoxes.push(box[i]);
+    }
+  }
+}
+
+
+function deactivateBox () {
+  for (let i = 0; i < box.length; i++) {
+    if (box[i].classList.contains('box-filled-1') || box[i].classList.contains('box-filled-2')) {
+      box[i].style.pointerEvents = 'none';
+    }
+  }
+}
+deactivateBox();
 
 
 const winningCombos = [
@@ -281,6 +271,7 @@ function displayWinner(boxClass, team, winnerClass) {
     const threeInARow = ((winningCombos[i][0].classList.contains(boxClass)) && (winningCombos[i][1].classList.contains(boxClass)) && (winningCombos[i][2].classList.contains(boxClass)));
     if (threeInARow === true) {
       console.log(`${nameInput.value} Won!`);
+      clearBoard();
       board.hide();
       $('body').html(`<div class="screen screen-win" id="finish">
         <header>
@@ -295,6 +286,7 @@ function displayWinner(boxClass, team, winnerClass) {
         return
     } else if ((oBoxes.length + xBoxes.length === 9) && (threeInARow === false)) {
       console.log(`It's a tie, bro!`);
+        clearBoard();
         board.hide();
         $('body').html(`<div class="screen screen-win-tie">
           <header>
@@ -321,15 +313,13 @@ function addNewGameButton() {
     $('body').append(board);
     svgBackgoundTurns();
     clearBoard();
+    activatePlayerOne();
     board.show();
     turnComputerPlayOn();
   });
 }
 
 function clearBoard() {
-  $('#player1').addClass('active');
-  $('#player2').removeClass('active');
-  addMouseoverSvg("url('img/o.svg')");
   for (let i = 0; i < box.length; i++) {
     box[i].classList.remove('box-filled-1');
     box[i].classList.remove('box-filled-2');
@@ -356,14 +346,6 @@ function randomHardTurn () {
   findAvailableSquares();
   for (let i = 0; i < availableSquares.length; i++) {
     if (availableSquares[i]) {}
-  }
-}
-
-for (let i = 0; i < xBoxes.length; i++) {
-  for (let j = 0; j < winningCombos.length; j++) {
-    if (winningCombos[j].indexOf(xBoxes[i]) != -1) {
-
-    }
   }
 }
 
