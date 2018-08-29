@@ -145,33 +145,32 @@ function addClickSvg () {
   for (let i = 0; i < box.length; i++) {
     box[i].addEventListener('click', function(e) {
       if ($('#player1').hasClass('active') && playingEasyComputer == false && playingHardComputer == false) {
-        oBoxes.push(box[i]);
         box[i].classList.add('box-filled-1');
+        oBoxes.push(box[i]);
         activatePlayerTwo();
         box[i].style.pointerEvents = 'none';
-        showWinnerWithName();
+      //  showWinnerWithName();
       } else if ($('#player2').hasClass('active') && playingEasyComputer == false && playingHardComputer == false) {
         xBoxes.push(box[i]);
         box[i].classList.add('box-filled-2');
         activatePlayerOne();
         box[i].style.pointerEvents = 'none';
-        displayWinner('box-filled-2', 'X', 'screen-win-two');
-        findAvailableSquares();
       } else if ($('#player1').hasClass('active') && playingEasyComputer == true) {
         oBoxes.push(box[i]);
         box[i].classList.add('box-filled-1');
         activatePlayerTwo();
         box[i].style.pointerEvents = 'none';
-        displayWinner('box-filled-1', 'O', 'screen-win-one');
+      //  displayWinner('box-filled-1', 'O', 'screen-win-one');
         findAvailableSquares();
         setTimeout(randomTurn, 500);
         activatePlayerOne();
-        showWinnerWithName();
+      //  showWinnerWithName();
       }  else if ($('#player1').hasClass('active') && playingEasyComputer == false && playingHardComputer == true) {
         oBoxes.push(box[i]);
         box[i].classList.add('box-filled-1');
         activatePlayerTwo();
         box[i].style.pointerEvents = 'none';
+        //showWinnerWithName();
         showWinnerWithName();
         computerPlayingHard();
         deactivateBox();
@@ -179,6 +178,7 @@ function addClickSvg () {
       }
       checkForXBoxes();
       showWinnerWithName();
+    //  displayWinner('box-filled-1', 'O', 'screen-win-one');
       displayWinner('box-filled-2', 'X', 'screen-win-two');
     });
   }
@@ -227,10 +227,10 @@ function computerPlayingHard () {
       return
     }
   }
-let randomHardXSquare = hardXSquares[Math.floor(Math.random() * hardXSquares.length)].classList.add('box-filled-2');
-xBoxes.push(randomHardXSquare);
-deactivateBox();
-return
+  let randomHardXSquare = hardXSquares[Math.floor(Math.random() * hardXSquares.length)].classList.add('box-filled-2');
+  xBoxes.push(randomHardXSquare);
+  deactivateBox();
+  return
 }
 
 
@@ -269,7 +269,7 @@ const winningCombos = [
 function displayWinner(boxClass, team, winnerClass) {
   for (let i = 0; i < winningCombos.length; i++) {
     const threeInARow = ((winningCombos[i][0].classList.contains(boxClass)) && (winningCombos[i][1].classList.contains(boxClass)) && (winningCombos[i][2].classList.contains(boxClass)));
-    if (threeInARow === true) {
+    if (threeInARow) {
       console.log(`${nameInput.value} Won!`);
       clearBoard();
       board.hide();
@@ -284,7 +284,7 @@ function displayWinner(boxClass, team, winnerClass) {
         $('.message').text(`${team} IS A WINNER!!!`);
         addNewGameButton();
         return
-    } else if ((oBoxes.length + xBoxes.length === 9) && (threeInARow === false)) {
+    } else if ((!threeInARow) && (oBoxes.length + xBoxes.length === 9)) {
       console.log(`It's a tie, bro!`);
         clearBoard();
         board.hide();
@@ -354,5 +354,5 @@ let randomAvailableSquare;
 function randomTurn() {
   let randomXSquare = availableSquares[Math.floor(Math.random() * availableSquares.length)].classList.add('box-filled-2');
   xBoxes.push(randomXSquare);
-  displayWinner('box-filled-2', 'X', 'screen-win-two');
+//  displayWinner('box-filled-2', 'X', 'screen-win-two');
 }
