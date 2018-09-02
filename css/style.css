@@ -133,10 +133,13 @@ h1 {
       margin-right: 0; }
     .boxes .box-filled-1 {
       background-color: #FFA000;
-      background-image: url(../img/o.svg); }
+      background-image: url(../img/o.svg);
+      background-size: contain; }
+
     .boxes .box-filled-2 {
       background-color: #3688C3;
-      background-image: url(../img/x.svg); }
+      background-image: url(../img/x.svg);
+      background-size: contain; }
 
 .difficulty-button {
   margin-left: 20px;
@@ -153,4 +156,8 @@ input {
 }
 #player-name {
   width: 100%;
+}
+input {
+  display: block;
+  margin: 5% auto 1% auto;
 }
