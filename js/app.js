@@ -28,7 +28,6 @@ addStartButtonEvent();
 const nameInput = document.createElement('input');
 const nameButton = document.createElement('button');
 nameButton.classList.add('button');
-nameButton.classList.add('input-button');
 nameButton.innerHTML = 'Submit';
 nameInput.setAttribute('placeHolder', 'Enter your name');
 nameInput.setAttribute('color', 'black');
@@ -47,7 +46,7 @@ nameButton.addEventListener('click', () => {
 //  Adds button for player to play against themselves
 function addPlayYourselfButton() {
   const playYourselfButton = document.createElement('button');
-  playYourselfButton.innerHTML = 'Play Yourself';
+  playYourselfButton.innerHTML = 'PLAY AGAINST SELF';
   playYourselfButton.classList.add('button');
   playYourselfButton.classList.add('difficulty-button');
   playYourselfButton.setAttribute('id', 'play-yourself');
@@ -59,7 +58,7 @@ addPlayYourselfButton();
 //  Adds button for player to play against the computer on easy level
 function addPlayEasyComputerButton() {
   const playEasyComputerButton = document.createElement('button');
-  playEasyComputerButton.innerHTML = 'Play Computer: Easy';
+  playEasyComputerButton.innerHTML = 'PLAY COMPUTER: EASY';
   playEasyComputerButton.classList.add('button');
   playEasyComputerButton.classList.add('difficulty-button');
   playEasyComputerButton.setAttribute('id', 'play-computer-easy');
@@ -71,7 +70,7 @@ addPlayEasyComputerButton();
 //  Adds button for player to play against the computer on hard level
 function addPlayHardComputerButton() {
   const playHardComputerButton = document.createElement('button');
-  playHardComputerButton.innerHTML = 'Play Computer: Hard';
+  playHardComputerButton.innerHTML = 'PLAY COMPUTER: HARD';
   playHardComputerButton.classList.add('button');
   playHardComputerButton.classList.add('difficulty-button');
   playHardComputerButton.setAttribute('id', 'play-computer-hard');
@@ -93,8 +92,8 @@ function turnComputerPlayOn() {
       playingYourself = false;
       $playEasyComputerButton.css('backgroundColor', '#42f48f')
         .css('pointerEvents', 'none');
-      $playHardComputerButton.fadeOut('slow');
-      $playYourselfButton.fadeOut('slow');
+      $playHardComputerButton.css('opacity', '0').css('pointerEvents', 'none');
+      $playYourselfButton.css('opacity', '0').css('pointerEvents', 'none');
       $('.boxes').fadeTo(1000, 1)
         .css('pointerEvents', 'auto');
   });
@@ -104,8 +103,8 @@ function turnComputerPlayOn() {
         playingYourself = false;
         $playHardComputerButton.css('backgroundColor', '#42f48f')
           .css('pointerEvents', 'none');;
-        $playEasyComputerButton.fadeOut('slow');
-        $playYourselfButton.fadeOut('slow');
+        $playEasyComputerButton.css('opacity', '0').css('pointerEvents', 'none');
+        $playYourselfButton.css('opacity', '0').css('pointerEvents', 'none');
         $('.boxes').fadeTo(1000, 1)
           .css('pointerEvents', 'auto');
   });
@@ -115,8 +114,10 @@ function turnComputerPlayOn() {
       playingYourself = true;
       $playYourselfButton.css('backgroundColor', '#42f48f')
         .css('pointerEvents', 'none');
-      $playEasyComputerButton.fadeOut('slow');
-      $playHardComputerButton.fadeOut('slow');
+      $playEasyComputerButton.css('opacity', '0')
+        .css('pointerEvents', 'none');
+      $playHardComputerButton.css('opacity', '0')
+        .css('pointerEvents', 'none');
       $('.boxes').fadeTo(1000, 1)
         .css('pointerEvents', 'auto');
     });
@@ -396,9 +397,12 @@ function clearBoard() {
 // Resets the play options, so new choice can be made for new game
 function computerOptionsReset() {
   playingYourself = false;
-  $playYourselfButton.css('backgroundColor', '#f4425c');
+  $playYourselfButton.css('backgroundColor', '#f4425c')
+    .css('opacity', '1');
   playingEasyComputer = false;
-  $playEasyComputerButton.css('backgroundColor', '#f4425c');
+  $playEasyComputerButton.css('backgroundColor', '#f4425c')
+    .css('opacity', '1');
   playingHardComputer = false;
-  $playHardComputerButton.css('backgroundColor', '#f4425c');
+  $playHardComputerButton.css('backgroundColor', '#f4425c')
+    .css('opacity', '1');
 }
