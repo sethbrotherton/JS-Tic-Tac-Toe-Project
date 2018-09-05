@@ -144,17 +144,16 @@ h1 {
 .difficulty-button {
   margin: 20px 50px 60px 20px;
   font-weight: 700;
-  transition-property: border-radius, color, padding;
+  transition-property: border-radius, color, transform;
   transition-duration: 0.5s;
   border-radius: 12px;
+  transition-timing-function: cubic-bezier(.52,-0.67,.55,1.88);
 }
 
 .difficulty-button:hover {
   border-radius: 25px;
   color: white;
-  /* height: 100px;
-  width: 400px; */
-  padding: 2em 3.5em;
+  transform: scale(1.2);
   border: 3px solid #42f4cb;
 }
 
